@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,6 +36,10 @@ public class MovieServiceImpl implements MovieService {
     public MovieDto addMovie(MovieDto movieDto, MultipartFile file) throws IOException {
 
         // upload the file
+
+        if(Files.exists((Paths.get(path + File.separator + file.getOriginalFilename())))){
+            throw new RuntimeException("File already exists! Please enter another file name");
+        }
         String uploadedFileName = fileService.uploadFile(path, file);
 
         // set the value of field "poster" as filename
@@ -108,9 +111,12 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public String deleteMovie(Integer movieId) {
+    public String deleteMovie(Integer movieId) throws IOException {
 
         Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new RuntimeException("Movie Not Found"));
+
+        Files.deleteIfExists(Paths.get(path + File.separator + movie.getPoster()));
+
         movieRepository.delete(movie);
         return "Movie deleted Successfully!";
     }

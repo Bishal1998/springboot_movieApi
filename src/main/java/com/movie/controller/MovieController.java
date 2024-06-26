@@ -43,7 +43,7 @@ public class MovieController {
     }
 
     @DeleteMapping("/{movieId}")
-    public ResponseEntity<String> deleteMovie(@PathVariable(name = "movieId") Integer movieId) {
+    public ResponseEntity<String> deleteMovie(@PathVariable(name = "movieId") Integer movieId) throws IOException {
 
         return new ResponseEntity<>(movieService.deleteMovie(movieId), HttpStatus.OK);
     }

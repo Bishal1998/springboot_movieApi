@@ -26,7 +26,7 @@ public class MovieServiceImpl implements MovieService {
     @Value("${spring.project.poster}")
     private String path;
 
-    @Value("{spring.baseUrl}")
+    @Value("${spring.baseUrl}")
     private String baseUrl;
 
     @Override

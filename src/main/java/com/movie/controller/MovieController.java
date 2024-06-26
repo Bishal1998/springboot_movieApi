@@ -31,15 +31,21 @@ public class MovieController {
     }
 
     @GetMapping("/{movieId}")
-    public ResponseEntity<MovieDto> getMovie(@PathVariable (name = "movieId") Integer movieId) {
+    public ResponseEntity<MovieDto> getMovie(@PathVariable(name = "movieId") Integer movieId) {
 
         return new ResponseEntity<>(movieService.getMovie(movieId), HttpStatus.OK);
     }
 
     @GetMapping()
-    public ResponseEntity<List<MovieDto>> getAllMovies(){
+    public ResponseEntity<List<MovieDto>> getAllMovies() {
 
         return new ResponseEntity<>(movieService.getAllMovies(), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{movieId}")
+    public ResponseEntity<String> deleteMovie(@PathVariable(name = "movieId") Integer movieId) {
+
+        return new ResponseEntity<>(movieService.deleteMovie(movieId), HttpStatus.OK);
     }
 
     private MovieDto convertToMovieDto(String movieDtoObj) throws JsonProcessingException {

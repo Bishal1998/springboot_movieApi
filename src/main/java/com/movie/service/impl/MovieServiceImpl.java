@@ -103,4 +103,12 @@ public class MovieServiceImpl implements MovieService {
                 movie.getPoster(),
                 baseUrl + "/file/" + movie.getPoster())).toList();
     }
+
+    @Override
+    public String deleteMovie(Integer movieId) {
+
+       Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new RuntimeException("Movie Not Found"));
+        movieRepository.delete(movie);
+        return "Movie deleted Successfully!";
+    }
 }

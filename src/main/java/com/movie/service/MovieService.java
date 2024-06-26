@@ -13,4 +13,6 @@ public interface MovieService {
     MovieDto getMovie(Integer movieId);
 
     List<MovieDto> getAllMovies();
+
+    String deleteMovie(Integer movieId);
 }

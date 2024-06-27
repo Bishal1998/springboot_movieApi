@@ -2,6 +2,8 @@ package com.movie.service.impl;
 
 import com.movie.dto.MovieDto;
 import com.movie.entity.Movie;
+import com.movie.exceptions.FileExistsException;
+import com.movie.exceptions.MovieNotFoundException;
 import com.movie.repository.MovieRepository;
 import com.movie.service.FileService;
 import com.movie.service.MovieService;
@@ -38,7 +40,7 @@ public class MovieServiceImpl implements MovieService {
         // upload the file
 
         if(Files.exists((Paths.get(path + File.separator + file.getOriginalFilename())))){
-            throw new RuntimeException("File already exists! Please enter another file name");
+            throw new FileExistsException("File already exists! Please enter another file name");
         }
         String uploadedFileName = fileService.uploadFile(path, file);
 
@@ -79,7 +81,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public MovieDto getMovie(Integer movieId) {
 
-        Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new RuntimeException("Movie Not Found!"));
+        Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new MovieNotFoundException("Movie Not Found!"));
 
         String posterUrl = baseUrl + "/file/" + movie.getPoster();
 
@@ -113,7 +115,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public String deleteMovie(Integer movieId) throws IOException {
 
-        Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new RuntimeException("Movie Not Found"));
+        Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new MovieNotFoundException("Movie Not Found"));
 
         Files.deleteIfExists(Paths.get(path + File.separator + movie.getPoster()));
 
@@ -124,7 +126,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public MovieDto updateMovie(MovieDto movieDto, MultipartFile file, Integer movieId) throws IOException {
 
-        Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new RuntimeException("Movie Not Found"));
+        Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new MovieNotFoundException("Movie Not Found"));
 
         String fileName = movie.getPoster();
 

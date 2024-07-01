@@ -5,10 +5,12 @@ import com.movie.auth.entities.User;
 import com.movie.auth.repositories.RefreshTokenRepository;
 import com.movie.auth.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.UUID;
 
+@Service
 public class RefreshTokenService {
 
     private final UserRepository userRepository;

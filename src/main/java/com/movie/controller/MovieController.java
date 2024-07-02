@@ -6,6 +6,7 @@ import com.movie.dto.MovieDto;
 import com.movie.service.MovieService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,6 +23,7 @@ public class MovieController {
         this.movieService = movieService;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/add-movie")
     public ResponseEntity<MovieDto> createMovie(@RequestPart MultipartFile file, @RequestPart String movieDto) throws IOException {
 
@@ -42,12 +44,14 @@ public class MovieController {
         return new ResponseEntity<>(movieService.getAllMovies(), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{movieId}")
     public ResponseEntity<String> deleteMovie(@PathVariable(name = "movieId") Integer movieId) throws IOException {
 
         return new ResponseEntity<>(movieService.deleteMovie(movieId), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{movieId}")
     public ResponseEntity<MovieDto> updateMovie(@RequestPart String movieDto, @RequestPart MultipartFile file, @PathVariable(name = "movieId") Integer movieId) throws IOException {
 
